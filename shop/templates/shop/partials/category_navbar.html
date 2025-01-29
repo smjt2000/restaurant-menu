@@ -1,0 +1,8 @@
+<div class="mb-4 text-center">
+    <button class="btn btn-outline-primary mx-1" onclick="fetchMenuItems('_all')">همه</button>
+    {% for cat in categories %}
+        {% if cat.items_count > 0 %}
+            <button class="btn btn-outline-primary mx-1" onclick="fetchMenuItems('{{cat.id}}')">{{cat.title}}</button>
+        {% endif %}
+    {% endfor %}
+</div>
