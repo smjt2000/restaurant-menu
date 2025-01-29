@@ -22,25 +22,31 @@ class MenuItemSchema(Schema):
 
 
 class MenuItemFilterByCatSchema(FilterSchema):
-    search: Optional[str] = Field(None, q=['categories__id'])
+    search: Optional[str] = Field(..., q=['categories__id'])
 
 
 class MenuItemFilterSchema(FilterSchema):
-    fltr: Optional[str] = None
+    fltr: Optional[str]
 
 
 class MenuItemGetBySlugSchema(FilterSchema):
-    id: Optional[int] = None
+    id: Optional[int]
 
 
 @api.get('/item', response=MenuItemSchema)
 def item_detail(request, filters: MenuItemGetBySlugSchema = Query(...)):
+    """
+    recives an MenuItem id as input and return the corresponding MenuItem.
+    """
     items = MenuItem.objects.active()
     if filters.id:
         return items.get(id=filters.id)
 
 @api.get('/filter', response=List[MenuItemSchema])
 def menu_items(request, filters: MenuItemFilterSchema = Query(...)):
+    """
+    recives a filter string as input and return list of MenuItems based on input.
+    """
     items = MenuItem.objects.active()
     match filters.fltr:
         case '-price':
@@ -53,6 +59,9 @@ def menu_items(request, filters: MenuItemFilterSchema = Query(...)):
 
 @api.get('/category', response=List[MenuItemSchema])
 def category_items(request, filters:MenuItemFilterByCatSchema = Query(...)):
+    """
+    recives a category id as input and return the corresponding category items.
+    """
     items = MenuItem.objects.all().select_related('categories')
     if filters.search != '_all':
         items = filters.filter(items)
