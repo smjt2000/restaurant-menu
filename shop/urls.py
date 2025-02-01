@@ -1,3 +1,6 @@
+"""
+url file for shop app
+"""
 from django.urls import path
 from .views import MenuList
 
