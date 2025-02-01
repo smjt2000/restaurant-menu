@@ -20,5 +20,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files 'shop/*.py')
-        git ls-files -- 'shop/*.py' ':!:migrations/*.*.py')
+        pylint $(git ls-files -- 'shop/*.py' ':!:migrations/*.*.py')
