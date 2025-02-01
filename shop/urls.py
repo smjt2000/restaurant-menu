@@ -4,5 +4,5 @@ from .views import MenuList
 app_name = 'shop'
 
 urlpatterns = [
-    path('menu/', MenuList.as_view(), name='menu'),
+    path('', MenuList.as_view(), name='menu'),
 ]
