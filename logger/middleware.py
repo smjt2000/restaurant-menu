@@ -6,7 +6,8 @@ import shutil
 IRAN = timezone(timedelta(hours=3.5))
 
 def cleanup():
-    now = datetime.now()
+    now = datetime.now(IRAN)
+    # get last month
     first_day = now.replace(day=1)
     last_day = first_day - timedelta(days=1)
     py, pm = last_day.year, last_day.month
@@ -17,20 +18,23 @@ def cleanup():
         return
 
     gzip_path = f"logger/logs/{py}-{pm:02d}.tar.gz"
-    with tarfile.open(gzip_path, 'w:gz') as tar:
-        for root, dirs, files in os.walk(logs_dir):
-            for file in files:
-                file_path = os.path.join(root, file)
-                arcname = os.path.relpath(file_path, start=logs_dir)
-                tar.add(file_path, arcname=arcname)
-
-    shutil.rmtree(logs_dir)
+    try:
+        with tarfile.open(gzip_path, 'w:gz') as tar:
+            for root, dirs, files in os.walk(logs_dir):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    arcname = os.path.relpath(file_path, start=logs_dir)
+                    tar.add(file_path, arcname=arcname)
+        shutil.rmtree(logs_dir)
+    except Exception as e:
+        print("ERROR when creating tar.gz file")
+        print(e)
 
 
 def write_to_file(content: str):
     cleanup()
 
-    date = datetime.now()
+    date = datetime.now(IRAN)
     full = date.strftime("%Y-%m-%d")
     month = date.strftime("%Y-%m")
     dir_prefix = 'logger/logs'
@@ -40,8 +44,13 @@ def write_to_file(content: str):
         os.makedirs(logs_dir)
 
     file_name = f'{logs_dir}/{full}.txt'
-    with open(file_name, 'a') as f:
-        f.write(content + '\n')
+
+    try:
+        with open(file_name, 'a') as f:
+            f.write(content + '\n')
+    except Exception as e:
+        print("ERROR writing to log file")
+        print(e)
 
 
 def get_client_ip(request):
@@ -71,6 +80,11 @@ class LoggerMiddleWare:
         time = datetime.now(IRAN).strftime("%Y-%m-%d %H:%M:%S")
         log_data = f"[{time}] {response.status_code} {request.method} {get_client_ip(request)} {request.get_full_path()}"
 
-        write_to_file(log_data)
+        try:
+            write_to_file(log_data)
+        except Exception as e:
+            print("ERROR when calling write_to_file function")
+            print(e)
+
         return response
 
