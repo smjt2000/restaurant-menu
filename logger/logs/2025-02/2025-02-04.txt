@@ -1,0 +1,13 @@
+[2025-02-04 10:46:35] 200 GET 127.0.0.1 /
+[2025-02-04 10:46:36] 200 GET 127.0.0.1 /api/filter?fltr=_all
+[2025-02-04 10:46:37] 200 GET 127.0.0.1 /api/category?search=3
+[2025-02-04 10:46:37] 200 GET 127.0.0.1 /api/category?search=4
+[2025-02-04 10:46:38] 200 GET 127.0.0.1 /api/filter?fltr=%2Bprice
+[2025-02-04 10:50:30] 200 GET 127.0.0.1 /
+[2025-02-04 10:50:31] 200 GET 127.0.0.1 /api/filter?fltr=_all
+[2025-02-04 10:50:33] 200 GET 127.0.0.1 /api/category?search=2
+[2025-02-04 10:50:33] 200 GET 127.0.0.1 /api/filter?fltr=-price
+[2025-02-04 10:50:34] 200 GET 127.0.0.1 /api/category?search=3
+[2025-02-04 10:50:35] 200 GET 127.0.0.1 /api/filter?fltr=%2Bprice
+[2025-02-04 10:50:36] 200 GET 127.0.0.1 /api/category?search=4
+[2025-02-04 10:50:36] 200 GET 127.0.0.1 /api/filter?fltr=_all
