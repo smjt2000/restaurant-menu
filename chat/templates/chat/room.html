@@ -1,0 +1,28 @@
+{% extends 'shop/menuitem_list.html' %}
+{% block chat %}
+	<button id="call" type='button'>Call Waiter</button>
+    {{ table_name|json_script:"table-name" }}
+    <script>
+        const tableName = JSON.parse(document.getElementById('table-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + tableName
+            + '/'
+        );
+
+		console.log(chatSocket);
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#call').onclick = function(e) {
+            chatSocket.send(JSON.stringify({
+                'message': `Table ${tableName} called`
+            }));
+        };
+    </script>
+{% endblock %}

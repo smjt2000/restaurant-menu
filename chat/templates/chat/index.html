@@ -1,0 +1,27 @@
+<!-- chat/templates/chat/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Rooms</title>
+</head>
+<body>
+    Enter your table code<br>
+    <input id="table-name-input" type="text" size="100"><br>
+    <input id="table-name-submit" type="button" value="Enter">
+
+    <script>
+        document.querySelector('#table-name-input').focus();
+        document.querySelector('#table-name-input').onkeyup = function(e) {
+            if (e.key === 'Enter') {  // enter, return
+                document.querySelector('#table-name-submit').click();
+            }
+        };
+
+        document.querySelector('#table-name-submit').onclick = function(e) {
+            var tableName = document.querySelector('#table-name-input').value;
+            window.location.pathname = '/chat/' + tableName + '/';
+        };
+    </script>
+</body>
+</html>

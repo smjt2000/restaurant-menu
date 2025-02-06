@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Room</title>
+<style>
+	*{
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+	button#clearbtn {
+		background: #000000;
+		color: #ffffff;
+		padding: 12px;
+		border-radius: 16px;
+		width: 100%;
+		margin-top: 8px;
+	}
+	.container {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		height: 100vh;
+	}
+	.row {
+		width: 39%;
+	}
+	.row textarea{
+		width: 100%;
+		border-radius: 8px;
+		border: 2px solid #181818;
+		resize: none;
+		padding: 4px;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+	<h2>Waiter Calls</h2>
+		<div class="row">
+			<textarea id="chat-log" rows=20 readonly></textarea><br>
+			{{ table_name|json_script:"table-name" }}
+			<button id="clearbtn" type='button'>clear logs</button>
+		</div>
+	</div>
+
+
+    <script>
+		const permission = Notification.permission;
+
+		if (permission !== 'denied') {
+			Notification.requestPermission(status => {
+				console.log(`Notification permission status: ${Notification.permission}`);
+			});
+		}
+
+		function displayNotification(event) {
+			if (Notification.permission === 'granted') {
+				const notification = new Notification(event.type, { body: event.message });
+			} else {
+				console.log('Notification permission not granted.');
+			}
+		}
+
+
+
+        const tableName = JSON.parse(document.getElementById('table-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + tableName
+            + '/'
+        );
+
+		document.getElementById('clearbtn').addEventListener('click', () => {
+			document.getElementById('chat-log').value = '';
+		});
+
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#chat-log').value += (data.message + '\n');
+			displayNotification({type: 'Waiter Call', message: data.message});
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.key === 'Enter') {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
+</body>
+</html>
