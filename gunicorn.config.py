@@ -57,7 +57,7 @@ def write_to_file(content):
 
 def post_request(worker, request, env, response):
     try:
-        write_to_file(f"{response.status_code} {request.method} {request.remote_addr[0]} {request.uri}")
+        write_to_file(f"{response.status_code} {request.method} {request.remote_addr[0]:<15} {request.uri}")
     except Exception as e:
         print("ERROR when calling write_to_file function")
         print(e)

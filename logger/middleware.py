@@ -78,7 +78,7 @@ class LoggerMiddleWare:
 
     def process_response(self, request, response):
         time = datetime.now(IRAN).strftime("%Y-%m-%d %H:%M:%S")
-        log_data = f"[{time}] {response.status_code} {request.method} {get_client_ip(request)} {request.get_full_path()}"
+        log_data = f"[{time}] {response.status_code} {request.method} {get_client_ip(request):<15} {request.get_full_path()}"
 
         try:
             write_to_file(log_data)

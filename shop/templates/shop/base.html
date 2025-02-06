@@ -123,6 +123,12 @@
         .bottom-sheet .body::-webkit-scrollbar {
             width: 0;
         }
+		button#call {
+			background: #000000;
+			color: #ffffff;
+			padding: 12px;
+			border-radius: 16px;
+		}
     </style>
 </head>
 <body onload="javascript:filterMenuItems('_all')">
@@ -142,6 +148,8 @@
             {% block items %}
             {% endblock %}
         </div>
+		{% block chat %}
+		{% endblock %}
     </div>
 
     <!-- Bottom Sheet -->

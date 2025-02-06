@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shop.urls')),
     path('api/', api.urls),
+    path('chat/', include('chat.urls')),
 ]
 
 from django.conf.urls.static import static
