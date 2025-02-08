@@ -1,55 +1,116 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-<style>
-	*{
-		box-sizing: border-box;
-		padding: 0;
-		margin: 0;
-	}
-	button#clearbtn {
-		background: #000000;
-		color: #ffffff;
-		padding: 12px;
-		border-radius: 16px;
-		width: 100%;
-		margin-top: 8px;
-	}
-	.container {
-		display: flex;
-		width: 100%;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		height: 100vh;
-	}
-	.row {
-		width: 39%;
-	}
-	.row textarea{
-		width: 100%;
-		border-radius: 8px;
-		border: 2px solid #181818;
-		resize: none;
-		padding: 4px;
-	}
-</style>
-</head>
-<body>
-	<div class="container">
-	<h2>Waiter Calls</h2>
-		<div class="row">
-			<textarea id="chat-log" rows=20 readonly></textarea><br>
-			{{ table_name|json_script:"table-name" }}
-			<button id="clearbtn" type='button'>clear logs</button>
-		</div>
-	</div>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log Box</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        font-weight: 700;
+        font-size: 20px;
+      }
 
+      body {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+
+      .log-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 500px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .log-list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 5px;
+      }
+
+      .log-entry {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #e3e3e3;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .log-entry button {
+        background: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .clear-btn {
+        background: #000000;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .clear-btn:hover {
+        background: #0056b3;
+      }
+
+      .title {
+        font-size: 25px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+	  {{ table_name|json_script:"table-name" }}
+    <div>
+      <h1 class="title">پنل مدیریت سفارشات هتل توس</h1>
+    </div>
+    <div class="log-container">
+      <!-- Separate Scrollable Log List -->
+      <div class="log-list">
+
+      </div>
+
+      <button class="clear-btn" onclick="clearLog()">پاک کردن همه</button>
+    </div>
 
     <script>
-		const permission = Notification.permission;
+      function clearLog() {
+        document.querySelector(".log-list").innerHTML = "";
+      }
+
+
+
+
+	  		const permission = Notification.permission;
 
 		if (permission !== 'denied') {
 			Notification.requestPermission(status => {
@@ -77,36 +138,28 @@
             + '/'
         );
 
-		document.getElementById('clearbtn').addEventListener('click', () => {
-			document.getElementById('chat-log').value = '';
-		});
-
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-			displayNotification({type: 'Waiter Call', message: data.message});
+
+			const entry = `
+        <div class="log-entry">
+          <button onclick="this.parentElement.remove()">X</button>
+          <span>${data.time}</span><span>میز شماره ${data.table_name}</span>
+        </div>
+		`
+            document.querySelector('.log-list').innerHTML += entry;
+
+			displayNotification({type: 'Waiter Call', message: `میز شماره${data.table_name} در ${data.time}`});
+
         };
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
+
     </script>
-</body>
+  </body>
 </html>

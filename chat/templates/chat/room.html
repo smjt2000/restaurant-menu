@@ -21,7 +21,7 @@
 
         document.querySelector('#call').onclick = function(e) {
             chatSocket.send(JSON.stringify({
-                'message': `Table ${tableName} called`
+                'table_name': tableName
             }));
         };
     </script>
