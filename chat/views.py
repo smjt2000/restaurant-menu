@@ -2,10 +2,12 @@ from django.shortcuts import render
 
 # Create your views here.
 
+
 def index(request):
     return render(request, 'chat/index.html')
 
-def room(request):
+
+def table(request):
     table_name = request.GET.get('table_name')
     template = 'chat/room.html'
 
@@ -16,4 +18,3 @@ def room(request):
         template = 'chat/admin.html'
 
     return render(request, template, {'table_name': table_name})
-

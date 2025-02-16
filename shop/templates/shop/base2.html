@@ -1,0 +1,33 @@
+{% load base_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.5/js.cookie.min.js"></script>
+		<title>منوی رستوران</title>
+		{% block head %}
+		{% endblock %}    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	</head>
+	<body>
+		<header>
+			<img class="header-image" src="{% static 'image/Asset6.svg' %}">
+		</header>
+
+		<div class="container">
+			{% category_navbar %}
+
+			<section class="food-cards">
+				{% block items %}
+					hi
+				{% endblock %}
+			</section>
+			{% block chat %}
+			{% endblock %}
+		</div>
+		<script src="{% static 'js/index.js' %}"></script>
+		{% block tail %}
+		{% endblock %}
+	</body>
+</html>

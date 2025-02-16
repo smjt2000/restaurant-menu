@@ -1,19 +1,24 @@
-{% extends 'shop/base.html' %}
+{% extends 'shop/base2.html' %}
 {% comment %}
 
-{% block items %}
-    {% for item in object_list %}
-        <div class="col-md-4 mb-3">
-            <div class="card" onclick="showDetails('{{item.id}}')">
-                <img src="{{item.thumbnail.url}}" alt="{{item.title}}">
-                <div class="card-body">
-                    <h5 class="card-title">{{item.title}}</h5>
-                    <p class="card-text mb-1"><strong>دسته‌بندی:</strong> {{item.categories.title}}</p>
-                    <p class="card-text mb-1" style="font-size: .7rem;">{{item.description}}</p>
-                    <p class="text-muted mb-0" style="font-size: .65rem;">{{item.persian_digit_price}} تومان</p>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
-{% endblock %}
+	{% block items %}
+
+		{% for item in object_list %}
+
+			<div class="card">
+				<div class="right">
+					<img src="{{ item.thumbnail.url }}" alt="{{ item.title }}">
+				</div>
+				<div class="left">
+					<div>
+						<h2>{{ item.title }}</h2>
+						<p>{{ item.description }}</p>
+					</div>
+					<hr/>
+					<span>{{ item.persian_digit_price }} تومان</span>
+				</div>
+			</div>
+
+		{% endfor %}
+	{% endblock %}
 {% endcomment %}

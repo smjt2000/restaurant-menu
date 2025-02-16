@@ -1,41 +1,11 @@
 {% extends 'shop/menuitem_list.html' %}
+{% load static %}
+
 {% block chat %}
-	<button id="call" type='button'>صدا زدن گارسون</button>
-    {{ table_name|json_script:"table-name" }}
-    <script>
-        const tableName = JSON.parse(document.getElementById('table-name').textContent);
+	<button id="call" type='button'>گارسون</button>
+	{{ table_name|json_script:"table-name" }}
+{% endblock %}
 
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + tableName
-            + '/'
-        );
-
-		console.log(chatSocket);
-
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#call').onclick = function(e) {
-            chatSocket.send(JSON.stringify({
-                'table_name': tableName
-            }));
-        };
-
-		window.addEventListener('load', () => {
-			const urlSearchParams = window.location.search
-			const searchParams = new URLSearchParams(urlSearchParams)
-
-			const tableName = searchParams.get("table_name")
-			if (tableName) {
-				Cookies.set('table_name', tableName)
-				searchParams.delete("table_name")
-				window.history.replaceState({}, '', window.location.pathname);
-				//window.location.reload();
-			}
-		})
-    </script>
+{% block tail %}
+    <script src="{% static 'js/socket.js' %}"></script>
 {% endblock %}

@@ -3,10 +3,12 @@ from django.core.validators import MinValueValidator
 
 # Create your models here.
 
+
 class CategoryManager(models.Manager):
     """
     manager class for Category model
     """
+
     def active(self):
         """
         active method for Category manager
@@ -18,6 +20,7 @@ class MenuItemManager(models.Manager):
     """
     manager class for MenuItem model
     """
+
     def active(self):
         """
         active method for MenuItem manager
@@ -29,12 +32,15 @@ class Category(models.Model):
     """
     Category model
     """
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, verbose_name="زیردسته")
+    parent = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.SET_NULL, verbose_name="زیردسته")
     title = models.CharField(max_length=64, verbose_name="عنوان")
-    description = models.TextField(null=True, blank=True, verbose_name="توضیحات")
+    description = models.TextField(
+        null=True, blank=True, verbose_name="توضیحات")
     status = models.BooleanField(default=True, verbose_name="وضعیت")
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    # thumbnail = models.ImageField(upload_to='category', verbose_name="تصویر")
 
     objects = CategoryManager()
 
@@ -53,7 +59,6 @@ class Category(models.Model):
         return self.items.count()
     items_count.short_description = "تعداد"
 
-
     def __str__(self):
         return self.title
 
@@ -64,9 +69,11 @@ class MenuItem(models.Model):
     """
     title = models.CharField(max_length=64, verbose_name="عنوان")
     thumbnail = models.ImageField(upload_to='menu', verbose_name="تصویر")
-    categories = models.ForeignKey(Category, related_name='items', verbose_name="دسته بن دیها", on_delete=models.CASCADE)
+    categories = models.ForeignKey(
+        Category, related_name='items', verbose_name="دسته بن دیها", on_delete=models.CASCADE)
     description = models.TextField(verbose_name="توضیحات")
-    price = models.IntegerField(validators=[MinValueValidator(1000)], verbose_name="قیمت")
+    price = models.IntegerField(
+        validators=[MinValueValidator(1000)], verbose_name="قیمت")
     status = models.BooleanField(default=True, verbose_name="وضعیت")
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -80,7 +87,6 @@ class MenuItem(models.Model):
         ordering = ['-status']
         verbose_name = "آیتم غذا"
         verbose_name_plural = "آیتم های غذا"
-
 
     @property
     def persian_digit_price(self):
@@ -105,7 +111,6 @@ class MenuItem(models.Model):
             if i % 3 == 0 and i != len(str(self.price)):
                 result += "،"
         return ''.join(reversed(result))
-
 
     def __str__(self):
         return self.title
