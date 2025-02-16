@@ -95,3 +95,12 @@
 [2025-02-16 11:34:55] 200 GET 127.0.0.1       /chat/call/
 [2025-02-16 11:34:55] 200 GET 127.0.0.1       /api/filter?fltr=_all
 [2025-02-16 11:35:04] 200 GET 127.0.0.1       /chat/call/?table_name=admin
+[2025-02-16 11:42:36] 200 GET 127.0.0.1       /chat/call/?table_name=2
+[2025-02-16 11:42:37] 200 GET 127.0.0.1       /api/filter?fltr=_all
+[2025-02-16 11:42:42] 200 GET 127.0.0.1       /chat/call/?table_name=4
+[2025-02-16 11:42:42] 200 GET 127.0.0.1       /api/filter?fltr=_all
+[2025-02-16 11:42:54] 200 GET 127.0.0.1       /chat/call/?table_name=2
+[2025-02-16 11:42:55] 200 GET 127.0.0.1       /chat/call/
+[2025-02-16 11:42:55] 200 GET 127.0.0.1       /api/filter?fltr=_all
+[2025-02-16 11:43:01] 200 GET 127.0.0.1       /chat/call/?table_name=2
+[2025-02-16 11:43:02] 200 GET 127.0.0.1       /api/filter?fltr=_all
