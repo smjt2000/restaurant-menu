@@ -9,6 +9,9 @@ def room(request):
     table_name = request.GET.get('table_name')
     template = 'chat/room.html'
 
+    if table_name is None:
+        table_name = request.COOKIES.get('table_name')
+
     if table_name == 'admin':
         template = 'chat/admin.html'
 
