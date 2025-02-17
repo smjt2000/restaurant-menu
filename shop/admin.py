@@ -3,22 +3,28 @@ from .models import Category, MenuItem
 
 # Register your models here.
 
+
 def set_status_false(modeladmin, request, queryset):
     """
     changes status of objects to false
     """
     rows_updated = queryset.update(status=False)
-    modeladmin.message_user(request, f"{rows_updated} items status set to False")
+    modeladmin.message_user(
+        request, f"وضعیت {rows_updated} مورد به عدم نمایش تغییر کرد")
+
 
 def set_status_true(modeladmin, request, queryset):
     """
     changes status of objects to true
     """
     rows_updated = queryset.update(status=True)
-    modeladmin.message_user(request, f"{rows_updated} items status set to True")
+    modeladmin.message_user(
+        request, f"وضعیت {rows_updated} مورد به نمایش دادن تغییر کرد")
 
-set_status_false.short_description = "set status to False"
-set_status_true.short_description = "set status to True"
+
+set_status_false.short_description = "عدم نمایش"
+set_status_true.short_description = "نمایش"
+
 
 class CategoryAdmin(admin.ModelAdmin):
     """
