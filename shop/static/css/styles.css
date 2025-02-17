@@ -200,12 +200,12 @@ hr {
     }
 
     .card {
-        flex-direction: row; 
+        flex-direction: row;
     }
 
     .card .left,
     .card .right {
-        width: 70%; 
+        width: 70%;
         padding: 10px;
     }
 
@@ -215,11 +215,11 @@ hr {
     }
 
     .card h2 {
-        font-size: 20px; 
+        font-size: 20px;
     }
 
     .card p {
-        font-size: 14px; 
+        font-size: 14px;
     }
 
     .card img {
