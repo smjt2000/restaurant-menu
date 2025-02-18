@@ -26,7 +26,7 @@ const filterMenuItems = (_filter) => {
 								<div class="left">
 									<div dir="rtl">
 										<h2>${item.title}</h2>
-										<p>${item.description}</p>
+										<p class="truncate">${item.description}</p>
 									</div>
 									<hr/>
 									<span>${item.persian_digit_price} تومان</span>
@@ -75,7 +75,7 @@ const fetchMenuItems = (category) => {
 				<div class="left">
 				<div dir="rtl">
 				<h2>${item.title}</h2>
-				<p>${item.description}</p>
+				<p class="truncate">${item.description}</p>
 				</div>
 				<hr/>
 				<span>${item.persian_digit_price} تومان</span>
